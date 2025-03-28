@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instatiate.dev - Firebase Alternative</title>
+  <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+  <script src="instatiate-sdk.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    :root {
+      --primary: #3ecf8e;
+      --primary-dark: #24b47e;
+      --secondary: #6f7bb6;
+      --dark-blue: #1f2937;
+      --darker-blue: #111827;
+      --darkest-blue: #0f172a;
+      --text: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border: #374151;
+      --card-bg: #1e293b;
+      --success: #3ecf8e;
+      --error: #f43f5e;
+      --warning: #eab308;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(to bottom, var(--darker-blue), var(--darkest-blue));
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 6px;
+      margin-right: 0.75rem;
+    }
+    
+    .main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .main {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border);
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    
+    .status {
+      font-size: 0.875rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      background-color: var(--dark-blue);
+      color: var(--text-secondary);
+    }
+    
+    .status.connected {
+      background-color: rgba(62, 207, 142, 0.2);
+      color: var(--success);
+    }
+    
+    .status.error {
+      background-color: rgba(244, 63, 94, 0.2);
+      color: var(--error);
+    }
+    
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--dark-blue);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.875rem;
+      transition: border-color 0.2s;
+    }
+    
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(62, 207, 142, 0.2);
+    }
+    
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 0.75rem 1.25rem;
+      background-color: var(--dark-blue);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--darker-blue);
+    }
+    
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    button.primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: #000;
+    }
+    
+    button.primary:hover {
+      background-color: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+    
+    button.danger {
+      background-color: var(--error);
+      border-color: var(--error);
+      color: white;
+    }
+    
+    button.danger:hover {
+      background-color: #e11d48;
+      border-color: #e11d48;
+    }
+    
+    .message {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+    
+    .message.error {
+      background-color: rgba(244, 63, 94, 0.1);
+      color: var(--error);
+      border: 1px solid rgba(244, 63, 94, 0.2);
+    }
+    
+    .message.success {
+      background-color: rgba(62, 207, 142, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(62, 207, 142, 0.2);
+    }
+    
+    .data-container {
+      width: 100%;
+      min-height: 200px;
+      max-height: 400px;
+      overflow: auto;
+      background-color: var(--dark-blue);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+    }
+    
+    .data-container pre {
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <a href="#" class="logo">
+        <div class="logo-icon"></div>
+        Instatiate.dev
+      </a>
+    </header>
+    
+    <main class="main">
+      <!-- Authentication Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Authentication</h2>
+          <div id="auth-status" class="status">Not logged in</div>
+        </div>
+        
+        <div id="auth-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password">
+          </div>
+          <div class="button-group">
+            <button id="login-btn" class="primary">Login</button>
+            <button id="register-btn">Register</button>
+          </div>
+          <div id="auth-message"></div>
+        </div>
+        
+        <div id="logout-container" style="display: none;">
+          <button id="logout-btn" class="danger">Logout</button>
+        </div>
+      </div>
+      
+      <!-- Real-time Database Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Real-time Database</h2>
+          <div id="db-status" class="status">Not connected</div>
+        </div>
+        
+        <div id="db-controls">
+          <div class="form-group">
+            <label for="path">Path</label>
+            <input type="text" id="path" placeholder="e.g., /users/123" value="/users/123">
+          </div>
+          <div class="form-group">
+            <label for="data">Data (JSON)</label>
+            <textarea id="data" placeholder='{"name": "John", "age": 30}'></textarea>
+          </div>
+          <div class="button-group">
+            <button id="get-btn" disabled>Get Data</button>
+            <button id="set-btn" disabled>Set Data</button>
+            <button id="update-btn" disabled>Update Data</button>
+            <button id="delete-btn" disabled class="danger">Delete Data</button>
+          </div>
+          <div class="button-group">
+            <button id="listen-btn" disabled>Listen for Changes</button>
+            <button id="unlisten-btn" disabled>Stop Listening</button>
+          </div>
+          <div id="db-message"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="data-container">Data:</label>
+          <div class="data-container">
+            <pre id="data-container"></pre>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <footer class="footer">
+      <p>&copy; 2025 Instatiate.dev - A self-hosted Firebase alternative</p>
+    </footer>
+  </div>
+  
+  <script>
+    // Initialize Instatiate SDK
+    const instatiate = new InstatiateSDK({
+      apiUrl: 'http://localhost:3000/api'
+    });
+    
+    // DOM elements
+    const authStatus = document.getElementById('auth-status');
+    const authForm = document.getElementById('auth-form');
+    const logoutContainer = document.getElementById('logout-container');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const registerBtn = document.getElementById('register-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const authMessage = document.getElementById('auth-message');
+    
+    const dbStatus = document.getElementById('db-status');
+    const pathInput = document.getElementById('path');
+    const dataInput = document.getElementById('data');
+    const getBtn = document.getElementById('get-btn');
+    const setBtn = document.getElementById('set-btn');
+    const updateBtn = document.getElementById('update-btn');
+    const deleteBtn = document.getElementById('delete-btn');
+    const listenBtn = document.getElementById('listen-btn');
+    const unlistenBtn = document.getElementById('unlisten-btn');
+    const dbMessage = document.getElementById('db-message');
+    const dataContainer = document.getElementById('data-container');
+    
+    // Current subscription
+    let currentSubscription = null;
+    
+    // Update Auth UI
+    const updateAuthUI = (isLoggedIn) => {
+      if (isLoggedIn) {
+        authStatus.textContent = `Logged in as ${emailInput.value}`;
+        authStatus.className = 'status connected';
+        authForm.style.display = 'none';
+        logoutContainer.style.display = 'block';
+        
+        // Enable database controls
+        getBtn.disabled = false;
+        setBtn.disabled = false;
+        updateBtn.disabled = false;
+        deleteBtn.disabled = false;
+        listenBtn.disabled = false;
+        
+        // Connect to real-time database
+        instatiate.connectToRealTimeDB()
+          .then(() => {
+            dbStatus.textContent = 'Connected';
+            dbStatus.className = 'status connected';
+          })
+          .catch((error) => {
+            dbStatus.textContent = `Connection error`;
+            dbStatus.className = 'status error';
+            showMessage(dbMessage, `Failed to connect: ${error.message}`, true);
+          });
+      } else {
+        authStatus.textContent = 'Not logged in';
+        authStatus.className = 'status';
+        authForm.style.display = 'block';
+        logoutContainer.style.display = 'none';
+        
+        // Disable database controls
+        getBtn.disabled = true;
+        setBtn.disabled = true;
+        updateBtn.disabled = true;
+        deleteBtn.disabled = true;
+        listenBtn.disabled = true;
+        unlistenBtn.disabled = true;
+        
+        dbStatus.textContent = 'Not connected';
+        dbStatus.className = 'status';
+      }
+    };
+    
+    // Show message
+    const showMessage = (element, message, isError = false) => {
+      element.textContent = message;
+      element.className = isError ? 'message error' : 'message success';
+      
+      // Clear message after 5 seconds
+      setTimeout(() => {
+        element.textContent = '';
+        element.className = '';
+      }, 5000);
+    };
+    
+    // Display data
+    const displayData = (data) => {
+      dataContainer.textContent = JSON.stringify(data, null, 2);
+    };
+    
+    // Register button
+    registerBtn.addEventListener('click', async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      
+      if (!email || !password) {
+        showMessage(authMessage, 'Email and password are required', true);
+        return;
+      }
+      
+      try {
+        await instatiate.register(email, password);
+        showMessage(authMessage, 'Registration successful');
+        updateAuthUI(true);
+      } catch (error) {
+        showMessage(authMessage, `Registration failed: ${error.message}`, true);
+      }
+    });
+    
+    // Login button
+    loginBtn.addEventListener('click', async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      
+      if (!email || !password) {
+        showMessage(authMessage, 'Email and password are required', true);
+        return;
+      }
+      
+      try {
+        await instatiate.login(email, password);
+        showMessage(authMessage, 'Login successful');
+        updateAuthUI(true);
+      } catch (error) {
+        showMessage(authMessage, `Login failed: ${error.message}`, true);
+      }
+    });
+    
+    // Logout button
+    logoutBtn.addEventListener('click', () => {
+      instatiate.logout();
+      emailInput.value = '';
+      passwordInput.value = '';
+      dataContainer.textContent = '';
+      updateAuthUI(false);
+      showMessage(authMessage, 'Logged out successfully');
+    });
+    
+    // Get data button
+    getBtn.addEventListener('click', async () => {
+      const path = pathInput.value.trim();
+      
+      if (!path) {
+        showMessage(dbMessage, 'Path is required', true);
+        return;
+      }
+      
+      try {
+        const data = await instatiate.ref(path).get();
+        displayData(data);
+        showMessage(dbMessage, 'Data retrieved successfully');
+      } catch (error) {
+        showMessage(dbMessage, `Failed to get data: ${error.message}`, true);
+      }
+    });
+    
+    // Set data button
+    setBtn.addEventListener('click', async () => {
+      const path = pathInput.value.trim();
+      const dataStr = dataInput.value.trim();
+      
+      if (!path) {
+        showMessage(dbMessage, 'Path is required', true);
+        return;
+      }
+      
+      if (!dataStr) {
+        showMessage(dbMessage, 'Data is required', true);
+        return;
+      }
+      
+      try {
+        const data = JSON.parse(dataStr);
+        await instatiate.ref(path).set(data);
+        showMessage(dbMessage, 'Data set successfully');
+      } catch (error) {
+        showMessage(dbMessage, `Failed to set data: ${error.message}`, true);
+      }
+    });
+    
+    // Update data button
+    updateBtn.addEventListener('click', async () => {
+      const path = pathInput.value.trim();
+      const dataStr = dataInput.value.trim();
+      
+      if (!path) {
+        showMessage(dbMessage, 'Path is required', true);
+        return;
+      }
+      
+      if (!dataStr) {
+        showMessage(dbMessage, 'Data is required', true);
+        return;
+      }
+      
+      try {
+        const data = JSON.parse(dataStr);
+        await instatiate.ref(path).update(data);
+        showMessage(dbMessage, 'Data updated successfully');
+      } catch (error) {
+        showMessage(dbMessage, `Failed to update data: ${error.message}`, true);
+      }
+    });
+    
+    // Delete data button
+    deleteBtn.addEventListener('click', async () => {
+      const path = pathInput.value.trim();
+      
+      if (!path) {
+        showMessage(dbMessage, 'Path is required', true);
+        return;
+      }
+      
+      try {
+        await instatiate.ref(path).remove();
+        displayData(null);
+        showMessage(dbMessage, 'Data deleted successfully');
+      } catch (error) {
+        showMessage(dbMessage, `Failed to delete data: ${error.message}`, true);
+      }
+    });
+    
+    // Listen for changes button
+    listenBtn.addEventListener('click', () => {
+      const path = pathInput.value.trim();
+      
+      if (!path) {
+        showMessage(dbMessage, 'Path is required', true);
+        return;
+      }
+      
+      // Stop current subscription if exists
+      if (currentSubscription) {
+        currentSubscription.off();
+        currentSubscription = null;
+      }
+      
+      try {
+        // Subscribe to changes
+        currentSubscription = instatiate.ref(path).on('value', (data) => {
+          displayData(data);
+        });
+        
+        showMessage(dbMessage, `Listening for changes at ${path}`);
+        unlistenBtn.disabled = false;
+      } catch (error) {
+        showMessage(dbMessage, `Failed to listen for changes: ${error.message}`, true);
+      }
+    });
+    
+    // Stop listening button
+    unlistenBtn.addEventListener('click', () => {
+      if (currentSubscription) {
+        currentSubscription.off();
+        currentSubscription = null;
+        unlistenBtn.disabled = true;
+        showMessage(dbMessage, 'Stopped listening for changes');
+      }
+    });
+    
+    // Initialize UI
+    updateAuthUI(false);
+  </script>
+</body>
+</html>
