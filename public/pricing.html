@@ -315,15 +315,15 @@
 <body>
   <div class="container">
     <header>
-      <a href="/landing.html" class="logo">
+      <a href="#" data-nav="landing" class="logo">
         <div class="logo-icon"></div>
         Instanti8&lt;<span class="dev">dev</span>&gt;
       </a>
       <nav class="nav">
-        <a href="/landing.html" class="nav-link">Home</a>
+        <a href="#" data-nav="landing" class="nav-link">Home</a>
         <a href="#features" class="nav-link">Features</a>
-        <a href="/ai-dashboard.html" class="nav-link">AI Assistant</a>
-        <a href="/index.html" class="button button-primary">Dashboard</a>
+        <a href="#" data-nav="dashboard" class="nav-link">AI Assistant</a>
+        <a href="#" data-nav="login" class="button button-primary">Dashboard</a>
       </nav>
     </header>
     
@@ -436,5 +436,6 @@
   <!-- Stripe Integration -->
   <script src="https://js.stripe.com/v3/"></script>
   <script src="/js/stripe-integration.js"></script>
+  <script src="/js/navigation.js"></script>
 </body>
 </html>

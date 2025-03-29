@@ -8,6 +8,20 @@ const redis = new Redis({
   db: config.redis.db
 });
 
+redis.on('error', (err) => {
+  console.error('Redis connection error:', err);
+});
+
+redis.on('connect', () => {
+  console.log('Connected to Redis');
+});
+
+redis.ping().then(result => {
+  console.log('Redis ping result:', result);
+}).catch(err => {
+  console.error('Redis ping error:', err);
+});
+
 class UserModel {
   static async create(userData) {
     const { email, password, displayName, firstName, lastName, metadata = {} } = userData;

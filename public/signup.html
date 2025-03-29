@@ -274,14 +274,14 @@
 <body>
   <div class="container">
     <header class="header">
-      <a href="/landing.html" class="logo">
+      <a href="#" data-nav="landing" class="logo">
         <div class="logo-icon"></div>
         Instanti8&lt;<span class="dev">dev</span>&gt;
       </a>
       <nav>
-        <a href="/landing.html" class="nav-link">Home</a>
-        <a href="/pricing.html" class="nav-link">Pricing</a>
-        <a href="/index.html" class="nav-link">Login</a>
+        <a href="#" data-nav="landing" class="nav-link">Home</a>
+        <a href="#" data-nav="pricing" class="nav-link">Pricing</a>
+        <a href="#" data-nav="login" class="nav-link">Login</a>
       </nav>
     </header>
     
@@ -331,8 +331,9 @@
         </div>
         
         <button type="submit" class="button" id="signup-button">Create Account</button>
+        <div id="debug-info" style="display: none; margin-top: 1rem; font-size: 0.75rem; color: var(--text-secondary);"></div>
         
-        <div id="signup-message"></div>
+        <div id="signup-message" role="alert" aria-live="assertive"></div>
       </form>
       
       <div class="login-link">
@@ -345,6 +346,7 @@
     </footer>
   </div>
   
+  <script src="/js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const signupForm = document.getElementById('signup-form');
@@ -356,6 +358,7 @@
       const confirmPasswordInput = document.getElementById('confirmPassword');
       const signupButton = document.getElementById('signup-button');
       const signupMessage = document.getElementById('signup-message');
+      const debugInfo = document.getElementById('debug-info');
       
       // Password requirement elements
       const lengthRequirement = document.getElementById('length-requirement');
@@ -388,9 +391,28 @@
         }
       });
       
+      // Enable debug mode with URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const debugMode = urlParams.get('debug') === 'true';
+      
+      if (debugMode) {
+        debugInfo.style.display = 'block';
+      }
+      
       // Form submission
       signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        // Add debug logging
+        if (window.debugUtils) {
+          window.debugUtils.log('Form submission started', {
+            email: emailInput.value,
+            displayName: displayNameInput.value,
+            hasFirstName: !!firstNameInput.value,
+            hasLastName: !!lastNameInput.value
+          });
+          window.debugUtils.logFormData(signupForm);
+        }
         
         // Clear previous messages
         signupMessage.textContent = '';
@@ -439,8 +461,9 @@
           return;
         }
         
-        // Disable button during submission
+        // Disable button and show loading state during submission
         signupButton.disabled = true;
+        signupButton.textContent = 'Creating Account...';
         
         try {
           // Send registration request
@@ -458,7 +481,13 @@
             })
           });
           
-          const data = await response.json();
+          let data;
+          try {
+            data = await response.json();
+          } catch (parseError) {
+            console.error('Error parsing response:', parseError);
+            throw new Error('Server response was not valid JSON');
+          }
           
           if (response.ok) {
             // Store token in localStorage
@@ -474,13 +503,41 @@
               window.location.href = '/index.html';
             }, 2000);
           } else {
-            showMessage(data.message || 'Registration failed', true);
+            // Handle specific error cases
+            if (data.code === 'EMAIL_EXISTS') {
+              showMessage('This email is already registered. Please use a different email or login instead.', true);
+            } else if (data.code === 'INVALID_EMAIL') {
+              showMessage('Please enter a valid email address.', true);
+            } else if (data.code === 'WEAK_PASSWORD') {
+              showMessage('Password is too weak. Please use a stronger password.', true);
+            } else {
+              showMessage(data.message || 'Registration failed. Please try again.', true);
+            }
+            
+            // Reset button state
             signupButton.disabled = false;
+            signupButton.textContent = 'Create Account';
           }
         } catch (error) {
           console.error('Registration error:', error);
-          showMessage('An error occurred during registration. Please try again.', true);
+          
+          // Check for network errors
+          if (error.name === 'TypeError' && error.message.includes('NetworkError')) {
+            showMessage('Network error. Please check your internet connection and try again.', true);
+          } else if (error.message === 'Server response was not valid JSON') {
+            showMessage('Server error. Please try again later.', true);
+          } else {
+            showMessage('An error occurred during registration. Please try again.', true);
+          }
+          
+          console.error('Registration error:', error);
+          
+          // Log detailed error information in debug mode
+          if (debugMode) {
+            debugInfo.textContent = `Error: ${error.name} - ${error.message}`;
+          }
           signupButton.disabled = false;
+          signupButton.textContent = 'Create Account';
         }
       });
       
@@ -488,8 +545,12 @@
       function showMessage(message, isError) {
         signupMessage.textContent = message;
         signupMessage.className = isError ? 'message error' : 'message success';
+        
+        // Scroll to the message to ensure it's visible
+        signupMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     });
   </script>
+  <script src="/js/debug.js"></script>
 </body>
 </html>
