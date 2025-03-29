@@ -1,12 +1,12 @@
 const express = require('express');
 const { DatabaseModel } = require('./models');
 const { checkAccessRules, setSecurityRules, getSecurityRules } = require('./security');
-const { verifyToken } = require('../middleware/auth');
+const authMiddleware = require('../middleware/auth');
 const logger = require('../utils/logger');
 
 const router = express.Router();
 
-router.get('/:path(*)', verifyToken, async (req, res) => {
+router.get('/:path(*)', authMiddleware, async (req, res) => {
   try {
     const path = `/${req.params.path}`;
     
@@ -23,7 +23,7 @@ router.get('/:path(*)', verifyToken, async (req, res) => {
   }
 });
 
-router.put('/:path(*)', verifyToken, async (req, res) => {
+router.put('/:path(*)', authMiddleware, async (req, res) => {
   try {
     const path = `/${req.params.path}`;
     const { value, accessRules } = req.body;
@@ -47,7 +47,7 @@ router.put('/:path(*)', verifyToken, async (req, res) => {
   }
 });
 
-router.patch('/:path(*)', verifyToken, async (req, res) => {
+router.patch('/:path(*)', authMiddleware, async (req, res) => {
   try {
     const path = `/${req.params.path}`;
     const updates = req.body;
@@ -71,7 +71,7 @@ router.patch('/:path(*)', verifyToken, async (req, res) => {
   }
 });
 
-router.delete('/:path(*)', verifyToken, async (req, res) => {
+router.delete('/:path(*)', authMiddleware, async (req, res) => {
   try {
     const path = `/${req.params.path}`;
     
@@ -90,7 +90,7 @@ router.delete('/:path(*)', verifyToken, async (req, res) => {
   }
 });
 
-router.get('/rules/:path(*)', verifyToken, async (req, res) => {
+router.get('/rules/:path(*)', authMiddleware, async (req, res) => {
   try {
     const path = `/${req.params.path}`;
     
@@ -107,7 +107,7 @@ router.get('/rules/:path(*)', verifyToken, async (req, res) => {
   }
 });
 
-router.put('/rules/:path(*)', verifyToken, async (req, res) => {
+router.put('/rules/:path(*)', authMiddleware, async (req, res) => {
   try {
     const path = `/${req.params.path}`;
     const rules = req.body;
