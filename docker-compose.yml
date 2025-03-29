@@ -15,7 +15,7 @@ services:
       - ./logs:/app/logs
     restart: unless-stopped
     networks:
-      - instatiate-network
+      - instantiate-network
 
   redis:
     image: redis:alpine
@@ -25,10 +25,10 @@ services:
       - redis-data:/data
     restart: unless-stopped
     networks:
-      - instatiate-network
+      - instantiate-network
 
 networks:
-  instatiate-network:
+  instantiate-network:
     driver: bridge
 
 volumes:

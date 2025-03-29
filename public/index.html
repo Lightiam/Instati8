@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instatiate.dev - Firebase Alternative</title>
+  <title>Instantiate.dev - Firebase Alternative</title>
   <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
-  <script src="instatiate-sdk.js"></script>
+  <script src="instantiate-sdk.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
   <style>
     :root {
@@ -258,7 +258,7 @@
     <header class="header">
       <a href="#" class="logo">
         <div class="logo-icon"></div>
-        Instatiate.dev
+        Instantiate.dev
       </a>
     </header>
     
@@ -354,13 +354,13 @@
     </main>
     
     <footer class="footer">
-      <p>&copy; 2025 Instatiate.dev - Dynamic database on the fly</p>
+      <p>&copy; 2025 Instantiate.dev - Dynamic database on the fly</p>
     </footer>
   </div>
   
   <script>
-    // Initialize Instatiate SDK
-    const instatiate = new InstatiateSDK({
+    // Initialize Instantiate SDK
+    const instantiate = new InstantiateSDK({
       apiUrl: 'http://localhost:3000/api'
     });
     
@@ -401,7 +401,7 @@
     
     // Verify button
     verifyBtn.addEventListener('click', async () => {
-      const userId = instatiate.userId;
+      const userId = instantiate.userId;
       const verificationToken = verificationTokenInput.value.trim();
       
       if (!userId || !verificationToken) {
@@ -410,11 +410,11 @@
       }
       
       try {
-        const response = await fetch(`${instatiate.apiUrl}/auth/verify`, {
+        const response = await fetch(`${instantiate.apiUrl}/auth/verify`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${instatiate.token}`
+            'Authorization': `Bearer ${instantiate.token}`
           },
           body: JSON.stringify({ userId, verificationToken })
         });
@@ -461,7 +461,7 @@
         listenBtn.disabled = false;
         
         // Connect to real-time database
-        instatiate.connectToRealTimeDB()
+        instantiate.connectToRealTimeDB()
           .then(() => {
             dbStatus.textContent = 'Connected';
             dbStatus.className = 'status connected';
@@ -545,7 +545,7 @@
       }
       
       try {
-        const userData = await instatiate.register(email, password, {
+        const userData = await instantiate.register(email, password, {
           displayName,
           firstName,
           lastName
@@ -574,7 +574,7 @@
       }
       
       try {
-        const userData = await instatiate.login(email, password);
+        const userData = await instantiate.login(email, password);
         showMessage(authMessage, 'Login successful');
         updateAuthUI(true, userData);
       } catch (error) {
@@ -584,7 +584,7 @@
     
     // Logout button
     logoutBtn.addEventListener('click', () => {
-      instatiate.logout();
+      instantiate.logout();
       emailInput.value = '';
       passwordInput.value = '';
       dataContainer.textContent = '';
@@ -602,7 +602,7 @@
       }
       
       try {
-        const data = await instatiate.ref(path).get();
+        const data = await instantiate.ref(path).get();
         displayData(data);
         showMessage(dbMessage, 'Data retrieved successfully');
       } catch (error) {
@@ -627,7 +627,7 @@
       
       try {
         const data = JSON.parse(dataStr);
-        await instatiate.ref(path).set(data);
+        await instantiate.ref(path).set(data);
         showMessage(dbMessage, 'Data set successfully');
       } catch (error) {
         showMessage(dbMessage, `Failed to set data: ${error.message}`, true);
@@ -651,7 +651,7 @@
       
       try {
         const data = JSON.parse(dataStr);
-        await instatiate.ref(path).update(data);
+        await instantiate.ref(path).update(data);
         showMessage(dbMessage, 'Data updated successfully');
       } catch (error) {
         showMessage(dbMessage, `Failed to update data: ${error.message}`, true);
@@ -668,7 +668,7 @@
       }
       
       try {
-        await instatiate.ref(path).remove();
+        await instantiate.ref(path).remove();
         displayData(null);
         showMessage(dbMessage, 'Data deleted successfully');
       } catch (error) {
@@ -693,7 +693,7 @@
       
       try {
         // Subscribe to changes
-        currentSubscription = instatiate.ref(path).on('value', (data) => {
+        currentSubscription = instantiate.ref(path).on('value', (data) => {
           displayData(data);
         });
         

@@ -13,9 +13,9 @@ module.exports = {
     db: parseInt(process.env.REDIS_DB) || 0
   },
   jwt: {
-    secret: process.env.JWT_SECRET || 'instatiate_jwt_secret_key',
+    secret: process.env.JWT_SECRET || 'instantiate_jwt_secret_key',
     expiresIn: parseInt(process.env.JWT_EXPIRATION) || 3600,
-    refreshSecret: process.env.REFRESH_TOKEN_SECRET || 'instatiate_refresh_token_secret',
+    refreshSecret: process.env.REFRESH_TOKEN_SECRET || 'instantiate_refresh_token_secret',
     refreshExpiresIn: parseInt(process.env.REFRESH_TOKEN_EXPIRATION) || 2592000
   },
   logging: {

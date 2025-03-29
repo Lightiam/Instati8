@@ -1,4 +1,4 @@
-class InstatiateSDK {
+class InstantiateSDK {
   constructor(config) {
     this.apiUrl = config.apiUrl || 'http://localhost:3000/api';
     this.token = null;
@@ -365,7 +365,7 @@ class InstatiateSDK {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = InstatiateSDK;
+  module.exports = InstantiateSDK;
 } else {
-  window.InstatiateSDK = InstatiateSDK;
+  window.InstantiateSDK = InstantiateSDK;
 }
