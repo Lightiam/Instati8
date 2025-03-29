@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instantiate.dev - Firebase Alternative</title>
+  <title>Instantiate.dev - Dynamic database on the fly</title>
   <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
   <script src="instantiate-sdk.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
@@ -254,12 +254,16 @@
   </style>
 </head>
 <body>
+  <script src="index.js"></script>
   <div class="container">
     <header class="header">
-      <a href="#" class="logo">
+      <a href="/landing.html" class="logo">
         <div class="logo-icon"></div>
         Instantiate.dev
       </a>
+      <nav>
+        <a href="/landing.html" style="color: var(--text-secondary); text-decoration: none; margin-left: 1rem;">Home</a>
+      </nav>
     </header>
     
     <main class="main">
