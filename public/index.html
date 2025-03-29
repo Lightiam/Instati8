@@ -43,11 +43,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
   <style>
     :root {
-      --primary: #3ecf8e;
-      --primary-dark: #24b47e;
+      --primary: #4facfe;
+      --primary-dark: #00f2fe;
       --secondary: #6f7bb6;
       --dark-blue: #1f2937;
       --darker-blue: #111827;
+      --gradient-blue-start: #4facfe;
+      --gradient-blue-end: #00f2fe;
       --darkest-blue: #0f172a;
       --text: #f8fafc;
       --text-secondary: #94a3b8;
@@ -90,16 +92,24 @@
     .logo {
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--text);
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
       text-decoration: none;
       display: flex;
       align-items: center;
     }
     
+    .dev {
+      color: var(--gradient-blue-end);
+      font-weight: 500;
+    }
+    
     .logo-icon {
       width: 32px;
       height: 32px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
       border-radius: 6px;
       margin-right: 0.75rem;
     }
@@ -293,7 +303,7 @@
     <header class="header">
       <a href="/landing.html" class="logo">
         <div class="logo-icon"></div>
-        Instantiate.dev
+        Instantiate.<span class="dev">dev</span>
       </a>
       <nav>
         <a href="/landing.html" style="color: var(--text-secondary); text-decoration: none; margin-left: 1rem;">Home</a>

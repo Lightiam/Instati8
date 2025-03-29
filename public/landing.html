@@ -41,13 +41,15 @@
   </script>
   <style>
     :root {
-      --primary: #3ecf8e;
-      --primary-dark: #24b47e;
+      --primary: #4facfe;
+      --primary-dark: #00f2fe;
       --secondary: #6f7bb6;
       --dark-blue: #1f2937;
       --darker-blue: #111827;
       --darkest-blue: #0f172a;
       --text: #f8fafc;
+      --gradient-blue-start: #4facfe;
+      --gradient-blue-end: #00f2fe;
       --text-secondary: #94a3b8;
       --border: #374151;
       --card-bg: #1e293b;
@@ -86,16 +88,24 @@
     .logo {
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--text);
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
       text-decoration: none;
       display: flex;
       align-items: center;
     }
     
+    .dev {
+      color: var(--gradient-blue-end);
+      font-weight: 500;
+    }
+    
     .logo-icon {
       width: 32px;
       height: 32px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
       border-radius: 6px;
       margin-right: 0.75rem;
     }
@@ -424,7 +434,7 @@
     <header class="header">
       <a href="#" class="logo">
         <div class="logo-icon"></div>
-        Instantiate.dev
+        Instantiate.<span class="dev">dev</span>
       </a>
       <nav class="nav">
         <a href="#features" class="nav-link">Features</a>
