@@ -10,13 +10,13 @@
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Instantiate.dev - Dynamic database on the fly">
   <meta property="og:description" content="A dynamic database solution with real-time updates, authentication, and AI-powered database operations. Build faster with less code.">
-  <meta property="og:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <meta property="og:image" content="/images/dashboard.png">
   <meta property="og:url" content="https://instantiate.dev">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Instantiate.dev - Dynamic database on the fly">
   <meta name="twitter:description" content="A dynamic database solution with real-time updates, authentication, and AI-powered database operations.">
-  <meta name="twitter:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <meta name="twitter:image" content="/images/dashboard.png">
   <link rel="canonical" href="https://instantiate.dev">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <script type="application/ld+json">
@@ -100,6 +100,12 @@
     .dev {
       color: var(--gradient-blue-end);
       font-weight: 500;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .logo-icon {
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end)) !important;
     }
     
     .logo-icon {
@@ -434,7 +440,7 @@
     <header class="header">
       <a href="#" class="logo">
         <div class="logo-icon"></div>
-        Instanti<span class="dev">8</span>
+        Instanti8&lt;<span class="dev">dev</span>&gt;
       </a>
       <nav class="nav">
         <a href="#features" class="nav-link">Features</a>
@@ -453,7 +459,7 @@
         <a href="/ai-dashboard.html" class="button button-secondary" onclick="sessionStorage.setItem('fromLanding', 'true');" aria-label="Try the AI Assistant">Try AI Assistant</a>
         <a href="#docs" class="button button-secondary" aria-label="View documentation">Documentation</a>
       </div>
-      <img src="https://i.imgur.com/ZXWxK6o.png" alt="Instantiate.dev Dashboard showing real-time database interface with dark theme" class="hero-image" loading="eager" width="800" height="450">
+      <img src="/images/dashboard.png" alt="Instantiate.dev Dashboard showing real-time database interface with dark theme" class="hero-image" loading="eager" width="800" height="450">
     </section>
     
     <section id="features" class="features" aria-labelledby="features-title">
