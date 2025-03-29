@@ -10,13 +10,13 @@
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Dashboard - Instantiate.dev">
   <meta property="og:description" content="Manage your dynamic database with Instantiate.dev. Real-time updates, authentication, and security rules in one powerful dashboard.">
-  <meta property="og:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <meta property="og:image" content="/images/dashboard.png">
   <meta property="og:url" content="https://instantiate.dev/index.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Dashboard - Instantiate.dev">
   <meta name="twitter:description" content="Manage your dynamic database with Instantiate.dev. Real-time updates, authentication, and security rules in one powerful dashboard.">
-  <meta name="twitter:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <meta name="twitter:image" content="/images/dashboard.png">
   <link rel="canonical" href="https://instantiate.dev/index.html">
   <script type="application/ld+json">
   {
@@ -43,11 +43,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
   <style>
     :root {
-      --primary: #3ecf8e;
-      --primary-dark: #24b47e;
+      --primary: #4facfe;
+      --primary-dark: #00f2fe;
       --secondary: #6f7bb6;
       --dark-blue: #1f2937;
       --darker-blue: #111827;
+      --gradient-blue-start: #4facfe;
+      --gradient-blue-end: #00f2fe;
       --darkest-blue: #0f172a;
       --text: #f8fafc;
       --text-secondary: #94a3b8;
@@ -90,16 +92,26 @@
     .logo {
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--text);
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
       text-decoration: none;
       display: flex;
       align-items: center;
     }
     
+    .dev {
+      color: var(--gradient-blue-end);
+      font-weight: 500;
+      position: relative;
+      display: inline-block;
+    }
+    
     .logo-icon {
       width: 32px;
       height: 32px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
       border-radius: 6px;
       margin-right: 0.75rem;
     }
@@ -293,7 +305,7 @@
     <header class="header">
       <a href="/landing.html" class="logo">
         <div class="logo-icon"></div>
-        Instantiate.dev
+        Instanti8&lt;<span class="dev">dev</span>&gt;
       </a>
       <nav>
         <a href="/landing.html" style="color: var(--text-secondary); text-decoration: none; margin-left: 1rem;">Home</a>

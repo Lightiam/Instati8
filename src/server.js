@@ -22,11 +22,12 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "cdn.socket.io"],
-      connectSrc: ["'self'", "localhost:*", "ws://localhost:*"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "cdn.socket.io", "js.stripe.com"],
+      connectSrc: ["'self'", "localhost:*", "ws://localhost:*", "api.stripe.com"],
       imgSrc: ["'self'", "data:"],
       styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
-      fontSrc: ["'self'", "fonts.gstatic.com"]
+      fontSrc: ["'self'", "fonts.gstatic.com"],
+      frameSrc: ["'self'", "hooks.stripe.com", "js.stripe.com", "checkout.stripe.com"]
     }
   }
 }));
@@ -47,6 +48,7 @@ app.use(limiter);
 app.use('/api/auth', require('./auth/routes'));
 app.use('/api/database', require('./database/routes'));
 app.use('/api/ai', require('./ai/routes/aiRoutes'));
+app.use('/api/payment', require('./payment/routes'));
 
 if (config.staticHosting.enabled) {
   app.use(express.static(config.staticHosting.path));

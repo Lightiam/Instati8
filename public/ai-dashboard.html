@@ -10,13 +10,13 @@
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Instantiate.dev - AI Assistant">
   <meta property="og:description" content="AI-powered database assistant for Instantiate.dev. Create database structures, generate queries, and update data using natural language.">
-  <meta property="og:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <meta property="og:image" content="/images/dashboard.png">
   <meta property="og:url" content="https://instantiate.dev/ai-dashboard.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Instantiate.dev - AI Assistant">
   <meta name="twitter:description" content="AI-powered database assistant for Instantiate.dev. Create database structures, generate queries, and update data using natural language.">
-  <meta name="twitter:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <meta name="twitter:image" content="/images/dashboard.png">
   <link rel="canonical" href="https://instantiate.dev/ai-dashboard.html">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <script type="application/ld+json">
@@ -42,12 +42,14 @@
   <script src="instantiate-sdk.js"></script>
   <style>
     :root {
-      --primary: #3ecf8e;
-      --primary-dark: #24b47e;
+      --primary: #4facfe;
+      --primary-dark: #00f2fe;
       --secondary: #6f7bb6;
       --dark-blue: #1f2937;
       --darker-blue: #111827;
       --darkest-blue: #0f172a;
+      --gradient-blue-start: #4facfe;
+      --gradient-blue-end: #00f2fe;
       --text: #f8fafc;
       --text-secondary: #94a3b8;
       --border: #374151;
@@ -89,16 +91,26 @@
     .logo {
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--text);
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
       text-decoration: none;
       display: flex;
       align-items: center;
     }
     
+    .dev {
+      color: var(--gradient-blue-end);
+      font-weight: 500;
+      position: relative;
+      display: inline-block;
+    }
+    
     .logo-icon {
       width: 32px;
       height: 32px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
       border-radius: 6px;
       margin-right: 0.75rem;
     }
@@ -262,7 +274,7 @@
     <header class="header">
       <a href="/landing.html" class="logo">
         <div class="logo-icon"></div>
-        Instantiate.dev
+        Instanti8&lt;<span class="dev">dev</span>&gt;
       </a>
       <nav class="nav">
         <a href="/landing.html" class="nav-link">Home</a>

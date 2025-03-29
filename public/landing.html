@@ -10,13 +10,13 @@
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Instantiate.dev - Dynamic database on the fly">
   <meta property="og:description" content="A dynamic database solution with real-time updates, authentication, and AI-powered database operations. Build faster with less code.">
-  <meta property="og:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <meta property="og:image" content="/images/dashboard.png">
   <meta property="og:url" content="https://instantiate.dev">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Instantiate.dev - Dynamic database on the fly">
   <meta name="twitter:description" content="A dynamic database solution with real-time updates, authentication, and AI-powered database operations.">
-  <meta name="twitter:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <meta name="twitter:image" content="/images/dashboard.png">
   <link rel="canonical" href="https://instantiate.dev">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <script type="application/ld+json">
@@ -41,13 +41,15 @@
   </script>
   <style>
     :root {
-      --primary: #3ecf8e;
-      --primary-dark: #24b47e;
+      --primary: #4facfe;
+      --primary-dark: #00f2fe;
       --secondary: #6f7bb6;
       --dark-blue: #1f2937;
       --darker-blue: #111827;
       --darkest-blue: #0f172a;
       --text: #f8fafc;
+      --gradient-blue-start: #4facfe;
+      --gradient-blue-end: #00f2fe;
       --text-secondary: #94a3b8;
       --border: #374151;
       --card-bg: #1e293b;
@@ -86,16 +88,30 @@
     .logo {
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--text);
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
       text-decoration: none;
       display: flex;
       align-items: center;
     }
     
+    .dev {
+      color: var(--gradient-blue-end);
+      font-weight: 500;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .logo-icon {
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end)) !important;
+    }
+    
     .logo-icon {
       width: 32px;
       height: 32px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
       border-radius: 6px;
       margin-right: 0.75rem;
     }
@@ -424,12 +440,13 @@
     <header class="header">
       <a href="#" class="logo">
         <div class="logo-icon"></div>
-        Instantiate.dev
+        Instanti8&lt;<span class="dev">dev</span>&gt;
       </a>
       <nav class="nav">
         <a href="#features" class="nav-link">Features</a>
         <a href="#ai" class="nav-link">AI Assistant</a>
         <a href="#docs" class="nav-link">Documentation</a>
+        <a href="/signup.html" class="nav-link">Sign Up</a>
         <a href="/index.html" class="button button-primary" onclick="sessionStorage.setItem('fromLanding', 'true');">Dashboard</a>
       </nav>
     </header>
@@ -438,11 +455,11 @@
       <h1 id="hero-title" class="hero-title">Dynamic database on the fly</h1>
       <p class="hero-subtitle">A dynamic database solution with real-time updates, authentication, and AI-powered database operations. Build faster with less code.</p>
       <div class="hero-buttons">
-        <a href="/index.html" class="button button-primary" onclick="sessionStorage.setItem('fromLanding', 'true');" aria-label="Get started with Instantiate.dev">Get Started</a>
+        <a href="/signup.html" class="button button-primary" onclick="sessionStorage.setItem('fromLanding', 'true');" aria-label="Get started with Instantiate.dev">Get Started</a>
         <a href="/ai-dashboard.html" class="button button-secondary" onclick="sessionStorage.setItem('fromLanding', 'true');" aria-label="Try the AI Assistant">Try AI Assistant</a>
         <a href="#docs" class="button button-secondary" aria-label="View documentation">Documentation</a>
       </div>
-      <img src="https://i.imgur.com/ZXWxK6o.png" alt="Instantiate.dev Dashboard showing real-time database interface with dark theme" class="hero-image" loading="eager" width="800" height="450">
+      <img src="/images/dashboard.png" alt="Instantiate.dev Dashboard showing real-time database interface with dark theme" class="hero-image" loading="eager" width="800" height="450">
     </section>
     
     <section id="features" class="features" aria-labelledby="features-title">

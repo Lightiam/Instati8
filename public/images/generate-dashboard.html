@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Dashboard Image</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #1f2937, #0f172a);
+      font-family: Arial, sans-serif;
+    }
+    .dashboard {
+      width: 800px;
+      height: 600px;
+      background: #1e293b;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      position: relative;
+    }
+    .header {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      padding: 15px 20px;
+      color: #0f172a;
+      font-weight: bold;
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sidebar {
+      width: 200px;
+      height: calc(100% - 50px);
+      background: #111827;
+      float: left;
+      padding: 15px;
+      box-sizing: border-box;
+    }
+    .main-content {
+      width: calc(100% - 200px);
+      height: calc(100% - 50px);
+      float: right;
+      padding: 15px;
+      box-sizing: border-box;
+      color: #f8fafc;
+    }
+    .menu-item {
+      color: #94a3b8;
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .menu-item.active {
+      background: rgba(79, 172, 254, 0.1);
+      color: #4facfe;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #374151;
+      color: #94a3b8;
+    }
+    .data-table td {
+      padding: 10px;
+      border-bottom: 1px solid #374151;
+    }
+    .data-card {
+      background: #111827;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .data-card h3 {
+      margin-top: 0;
+      color: #f8fafc;
+    }
+    .data-card p {
+      color: #94a3b8;
+    }
+    .logo {
+      font-weight: bold;
+    }
+    .logo span {
+      color: #00f2fe;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="header">
+      <div class="logo">Instanti8.<span>dev</span> Dashboard</div>
+      <div>Real-time Database</div>
+    </div>
+    <div class="sidebar">
+      <div class="menu-item active">Database</div>
+      <div class="menu-item">Authentication</div>
+      <div class="menu-item">Security Rules</div>
+      <div class="menu-item">Analytics</div>
+      <div class="menu-item">Settings</div>
+    </div>
+    <div class="main-content">
+      <div class="data-card">
+        <h3>Database Overview</h3>
+        <p>Connected to: production-db</p>
+        <p>Status: Active</p>
+      </div>
+      
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Last Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>/users</td>
+            <td>Collection</td>
+            <td>1.2 MB</td>
+            <td>2 mins ago</td>
+          </tr>
+          <tr>
+            <td>/posts</td>
+            <td>Collection</td>
+            <td>3.7 MB</td>
+            <td>5 mins ago</td>
+          </tr>
+          <tr>
+            <td>/comments</td>
+            <td>Collection</td>
+            <td>0.8 MB</td>
+            <td>12 mins ago</td>
+          </tr>
+          <tr>
+            <td>/settings</td>
+            <td>Document</td>
+            <td>0.1 MB</td>
+            <td>1 hour ago</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // This script will capture the dashboard as an image
+    window.onload = function() {
+      // Wait a moment to ensure everything is rendered
+      setTimeout(function() {
+        // Alert to let the user know they need to take a screenshot
+        alert('Please take a screenshot of this page and save it as dashboard.png in the images directory');
+      }, 500);
+    };
+  </script>
+</body>
+</html>

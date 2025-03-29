@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Instanti8</title>
+  <meta name="description" content="Create an account for Instanti8 - Dynamic database on the fly with real-time updates, authentication, and security rules.">
+  <meta name="keywords" content="database signup, real-time database, database management, database security">
+  <meta name="author" content="Instanti8">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Sign Up - Instanti8">
+  <meta property="og:description" content="Create an account for Instanti8 - Dynamic database on the fly with real-time updates, authentication, and security rules.">
+  <meta property="og:image" content="/images/dashboard.png">
+  <meta property="og:url" content="https://instantiate.dev/signup.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sign Up - Instanti8">
+  <meta name="twitter:description" content="Create an account for Instanti8 - Dynamic database on the fly with real-time updates, authentication, and security rules.">
+  <meta name="twitter:image" content="/images/dashboard.png">
+  <link rel="canonical" href="https://instantiate.dev/signup.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Sign Up - Instanti8",
+    "description": "Create an account for Instanti8 - Dynamic database on the fly with real-time updates, authentication, and security rules.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Instanti8",
+      "url": "https://instantiate.dev"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    :root {
+      --primary: #4facfe;
+      --primary-dark: #00f2fe;
+      --secondary: #6f7bb6;
+      --dark-blue: #1f2937;
+      --darker-blue: #111827;
+      --gradient-blue-start: #4facfe;
+      --gradient-blue-end: #00f2fe;
+      --darkest-blue: #0f172a;
+      --text: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border: #374151;
+      --card-bg: #1e293b;
+      --success: #3ecf8e;
+      --error: #f43f5e;
+      --warning: #eab308;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(to bottom, var(--darker-blue), var(--darkest-blue));
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    
+    .dev {
+      color: var(--gradient-blue-end);
+      font-weight: 500;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--gradient-blue-start), var(--gradient-blue-end));
+      border-radius: 6px;
+      margin-right: 0.75rem;
+    }
+    
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: color 0.2s;
+    }
+    
+    .nav-link:hover {
+      color: var(--text);
+    }
+    
+    .signup-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border);
+    }
+    
+    .signup-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .signup-title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .signup-subtitle {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--dark-blue);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.875rem;
+      transition: border-color 0.2s;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.2);
+    }
+    
+    .button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem 1.25rem;
+      background-color: var(--primary);
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+      text-align: center;
+    }
+    
+    .button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+    
+    .login-link a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    
+    .message {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+    
+    .message.error {
+      background-color: rgba(244, 63, 94, 0.1);
+      color: var(--error);
+      border: 1px solid rgba(244, 63, 94, 0.2);
+    }
+    
+    .message.success {
+      background-color: rgba(62, 207, 142, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(62, 207, 142, 0.2);
+    }
+    
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+    
+    .password-requirements {
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    
+    .password-requirements ul {
+      list-style-type: none;
+      padding-left: 0.5rem;
+    }
+    
+    .password-requirements li {
+      margin-bottom: 0.25rem;
+    }
+    
+    .password-requirements li.valid {
+      color: var(--success);
+    }
+    
+    .password-requirements li::before {
+      content: "•";
+      margin-right: 0.5rem;
+    }
+    
+    .password-requirements li.valid::before {
+      content: "✓";
+      color: var(--success);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <a href="/landing.html" class="logo">
+        <div class="logo-icon"></div>
+        Instanti8&lt;<span class="dev">dev</span>&gt;
+      </a>
+      <nav>
+        <a href="/landing.html" class="nav-link">Home</a>
+        <a href="/pricing.html" class="nav-link">Pricing</a>
+        <a href="/index.html" class="nav-link">Login</a>
+      </nav>
+    </header>
+    
+    <div class="signup-container">
+      <div class="signup-header">
+        <h1 class="signup-title">Create your account</h1>
+        <p class="signup-subtitle">Start building with Instanti8 today</p>
+      </div>
+      
+      <form id="signup-form">
+        <div class="form-group">
+          <label for="displayName">Display Name</label>
+          <input type="text" id="displayName" placeholder="Enter your display name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" placeholder="Enter your first name">
+        </div>
+        
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" placeholder="Enter your last name">
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required>
+          <div class="password-requirements">
+            <p>Password must:</p>
+            <ul>
+              <li id="length-requirement">Be at least 8 characters long</li>
+              <li id="letter-requirement">Include at least one letter</li>
+              <li id="number-requirement">Include at least one number</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+        </div>
+        
+        <button type="submit" class="button" id="signup-button">Create Account</button>
+        
+        <div id="signup-message"></div>
+      </form>
+      
+      <div class="login-link">
+        Already have an account? <a href="/index.html">Log in</a>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <p>&copy; 2025 Instanti8 - Dynamic database on the fly</p>
+    </footer>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const signupForm = document.getElementById('signup-form');
+      const displayNameInput = document.getElementById('displayName');
+      const firstNameInput = document.getElementById('firstName');
+      const lastNameInput = document.getElementById('lastName');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const signupButton = document.getElementById('signup-button');
+      const signupMessage = document.getElementById('signup-message');
+      
+      // Password requirement elements
+      const lengthRequirement = document.getElementById('length-requirement');
+      const letterRequirement = document.getElementById('letter-requirement');
+      const numberRequirement = document.getElementById('number-requirement');
+      
+      // Password validation
+      passwordInput.addEventListener('input', () => {
+        const password = passwordInput.value;
+        
+        // Check length requirement
+        if (password.length >= 8) {
+          lengthRequirement.classList.add('valid');
+        } else {
+          lengthRequirement.classList.remove('valid');
+        }
+        
+        // Check letter requirement
+        if (/[a-zA-Z]/.test(password)) {
+          letterRequirement.classList.add('valid');
+        } else {
+          letterRequirement.classList.remove('valid');
+        }
+        
+        // Check number requirement
+        if (/\d/.test(password)) {
+          numberRequirement.classList.add('valid');
+        } else {
+          numberRequirement.classList.remove('valid');
+        }
+      });
+      
+      // Form submission
+      signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Clear previous messages
+        signupMessage.textContent = '';
+        signupMessage.className = 'message';
+        
+        // Get form values
+        const displayName = displayNameInput.value.trim();
+        const firstName = firstNameInput.value.trim();
+        const lastName = lastNameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        
+        // Validate form
+        if (!displayName || !email || !password) {
+          showMessage('Please fill in all required fields', true);
+          return;
+        }
+        
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          showMessage('Please enter a valid email address', true);
+          return;
+        }
+        
+        // Validate password
+        if (password.length < 8) {
+          showMessage('Password must be at least 8 characters long', true);
+          return;
+        }
+        
+        if (!/[a-zA-Z]/.test(password)) {
+          showMessage('Password must include at least one letter', true);
+          return;
+        }
+        
+        if (!/\d/.test(password)) {
+          showMessage('Password must include at least one number', true);
+          return;
+        }
+        
+        // Check if passwords match
+        if (password !== confirmPassword) {
+          showMessage('Passwords do not match', true);
+          return;
+        }
+        
+        // Disable button during submission
+        signupButton.disabled = true;
+        
+        try {
+          // Send registration request
+          const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email,
+              password,
+              displayName,
+              firstName,
+              lastName
+            })
+          });
+          
+          const data = await response.json();
+          
+          if (response.ok) {
+            // Store token in localStorage
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('refreshToken', data.refreshToken);
+            localStorage.setItem('userId', data.userId);
+            
+            // Show success message
+            showMessage('Account created successfully! Redirecting to dashboard...', false);
+            
+            // Redirect to dashboard after a short delay
+            setTimeout(() => {
+              window.location.href = '/index.html';
+            }, 2000);
+          } else {
+            showMessage(data.message || 'Registration failed', true);
+            signupButton.disabled = false;
+          }
+        } catch (error) {
+          console.error('Registration error:', error);
+          showMessage('An error occurred during registration. Please try again.', true);
+          signupButton.disabled = false;
+        }
+      });
+      
+      // Helper function to show messages
+      function showMessage(message, isError) {
+        signupMessage.textContent = message;
+        signupMessage.className = isError ? 'message error' : 'message success';
+      }
+    });
+  </script>
+</body>
+</html>
