@@ -45,6 +45,13 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    environment: config.server.env
+  });
+});
+
 app.use('/api/auth', require('./auth/routes'));
 app.use('/api/database', require('./database/routes'));
 app.use('/api/ai', require('./ai/routes/aiRoutes'));
@@ -53,6 +60,14 @@ app.use('/api/payment', require('./payment/routes'));
 if (config.staticHosting.enabled) {
   app.use(express.static(config.staticHosting.path));
   logger.info(`Static file hosting enabled from ${config.staticHosting.path}`);
+  
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api/')) {
+      res.sendFile('index.html', { root: config.staticHosting.path });
+    } else {
+      res.status(404).json({ message: 'API endpoint not found' });
+    }
+  });
 }
 
 app.use((err, req, res, next) => {
