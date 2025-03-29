@@ -10,7 +10,7 @@ const redis = new Redis({
 
 class UserModel {
   static async create(userData) {
-    const { email, password, metadata = {} } = userData;
+    const { email, password, displayName, firstName, lastName, metadata = {} } = userData;
     
     const existingUser = await this.findByEmail(email);
     if (existingUser) {
@@ -18,12 +18,18 @@ class UserModel {
     }
     
     const userId = `user:${Date.now()}:${Math.random().toString(36).substring(2, 15)}`;
+    const verificationToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     
     const user = {
       id: userId,
       email,
       password,
+      displayName: displayName || email.split('@')[0],
+      firstName: firstName || '',
+      lastName: lastName || '',
       createdAt: Date.now(),
+      verified: false,
+      verificationToken,
       metadata: JSON.stringify(metadata)
     };
     

@@ -22,7 +22,7 @@
   ],
   "author": "",
   "license": "MIT",
-  "description": "A self-hosted Firebase alternative with real-time database and authentication",
+  "description": "Dynamic database on the fly with real-time database and authentication",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",

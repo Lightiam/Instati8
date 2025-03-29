@@ -1,6 +1,6 @@
 # Instatiate.dev
 
-A self-hosted Firebase alternative with real-time database and authentication services.
+Dynamic database on the fly with real-time database and authentication services.
 
 ## Features
 

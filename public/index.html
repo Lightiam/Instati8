@@ -279,11 +279,35 @@
             <label for="password">Password</label>
             <input type="password" id="password" placeholder="Enter your password">
           </div>
+          <div id="registration-fields" style="display: none;">
+            <div class="form-group">
+              <label for="displayName">Display Name</label>
+              <input type="text" id="displayName" placeholder="Enter your display name">
+            </div>
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" placeholder="Enter your first name">
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" placeholder="Enter your last name">
+            </div>
+          </div>
           <div class="button-group">
             <button id="login-btn" class="primary">Login</button>
             <button id="register-btn">Register</button>
+            <button id="toggle-register-btn">Show Registration Fields</button>
           </div>
           <div id="auth-message"></div>
+        </div>
+        
+        <div id="verification-container" style="display: none;">
+          <div class="form-group">
+            <label for="verificationToken">Verification Token</label>
+            <input type="text" id="verificationToken" placeholder="Enter your verification token">
+          </div>
+          <button id="verify-btn" class="primary">Verify Account</button>
+          <div id="verification-message"></div>
         </div>
         
         <div id="logout-container" style="display: none;">
@@ -330,7 +354,7 @@
     </main>
     
     <footer class="footer">
-      <p>&copy; 2025 Instatiate.dev - A self-hosted Firebase alternative</p>
+      <p>&copy; 2025 Instatiate.dev - Dynamic database on the fly</p>
     </footer>
   </div>
   
@@ -344,12 +368,21 @@
     const authStatus = document.getElementById('auth-status');
     const authForm = document.getElementById('auth-form');
     const logoutContainer = document.getElementById('logout-container');
+    const verificationContainer = document.getElementById('verification-container');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
+    const displayNameInput = document.getElementById('displayName');
+    const firstNameInput = document.getElementById('firstName');
+    const lastNameInput = document.getElementById('lastName');
+    const verificationTokenInput = document.getElementById('verificationToken');
+    const registrationFields = document.getElementById('registration-fields');
     const loginBtn = document.getElementById('login-btn');
     const registerBtn = document.getElementById('register-btn');
+    const toggleRegisterBtn = document.getElementById('toggle-register-btn');
+    const verifyBtn = document.getElementById('verify-btn');
     const logoutBtn = document.getElementById('logout-btn');
     const authMessage = document.getElementById('auth-message');
+    const verificationMessage = document.getElementById('verification-message');
     
     const dbStatus = document.getElementById('db-status');
     const pathInput = document.getElementById('path');
@@ -366,13 +399,59 @@
     // Current subscription
     let currentSubscription = null;
     
+    // Verify button
+    verifyBtn.addEventListener('click', async () => {
+      const userId = instatiate.userId;
+      const verificationToken = verificationTokenInput.value.trim();
+      
+      if (!userId || !verificationToken) {
+        showMessage(verificationMessage, 'User ID and verification token are required', true);
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${instatiate.apiUrl}/auth/verify`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${instatiate.token}`
+          },
+          body: JSON.stringify({ userId, verificationToken })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.message || 'Verification failed');
+        }
+        
+        showMessage(verificationMessage, 'Account verified successfully');
+        verificationContainer.style.display = 'none';
+        
+        // Update user status
+        authStatus.textContent = `Verified: ${emailInput.value}`;
+      } catch (error) {
+        showMessage(verificationMessage, `Verification failed: ${error.message}`, true);
+      }
+    });
+    
     // Update Auth UI
-    const updateAuthUI = (isLoggedIn) => {
+    const updateAuthUI = (isLoggedIn, userData) => {
       if (isLoggedIn) {
-        authStatus.textContent = `Logged in as ${emailInput.value}`;
+        const userEmail = userData?.email || emailInput.value;
+        authStatus.textContent = `Logged in as ${userEmail}`;
         authStatus.className = 'status connected';
         authForm.style.display = 'none';
-        logoutContainer.style.display = 'block';
+        
+        // Show verification container if user is not verified
+        if (userData && userData.verified === false && userData.verificationToken) {
+          verificationContainer.style.display = 'block';
+          verificationTokenInput.value = userData.verificationToken;
+          logoutContainer.style.display = 'none';
+        } else {
+          verificationContainer.style.display = 'none';
+          logoutContainer.style.display = 'block';
+        }
         
         // Enable database controls
         getBtn.disabled = false;
@@ -428,20 +507,57 @@
       dataContainer.textContent = JSON.stringify(data, null, 2);
     };
     
+    // Toggle registration fields
+    toggleRegisterBtn.addEventListener('click', () => {
+      if (registrationFields.style.display === 'none') {
+        registrationFields.style.display = 'block';
+        toggleRegisterBtn.textContent = 'Hide Registration Fields';
+      } else {
+        registrationFields.style.display = 'none';
+        toggleRegisterBtn.textContent = 'Show Registration Fields';
+      }
+    });
+    
     // Register button
     registerBtn.addEventListener('click', async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value.trim();
+      const displayName = displayNameInput.value.trim();
+      const firstName = firstNameInput.value.trim();
+      const lastName = lastNameInput.value.trim();
       
       if (!email || !password) {
         showMessage(authMessage, 'Email and password are required', true);
         return;
       }
       
+      // Email format validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showMessage(authMessage, 'Invalid email format', true);
+        return;
+      }
+      
+      // Password strength validation
+      if (password.length < 8) {
+        showMessage(authMessage, 'Password must be at least 8 characters long', true);
+        return;
+      }
+      
       try {
-        await instatiate.register(email, password);
-        showMessage(authMessage, 'Registration successful');
-        updateAuthUI(true);
+        const userData = await instatiate.register(email, password, {
+          displayName,
+          firstName,
+          lastName
+        });
+        
+        if (userData.verificationToken) {
+          showMessage(authMessage, `Registration successful. Please verify your account with token: ${userData.verificationToken.substring(0, 8)}...`, false);
+        } else {
+          showMessage(authMessage, 'Registration successful');
+        }
+        
+        updateAuthUI(true, userData);
       } catch (error) {
         showMessage(authMessage, `Registration failed: ${error.message}`, true);
       }
@@ -458,9 +574,9 @@
       }
       
       try {
-        await instatiate.login(email, password);
+        const userData = await instatiate.login(email, password);
         showMessage(authMessage, 'Login successful');
-        updateAuthUI(true);
+        updateAuthUI(true, userData);
       } catch (error) {
         showMessage(authMessage, `Login failed: ${error.message}`, true);
       }
