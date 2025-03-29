@@ -1,6 +1,6 @@
-# Instatiate.dev
+# Instantiate.dev
 
-A self-hosted Firebase alternative with real-time database and authentication services.
+Dynamic database on the fly with real-time database and authentication services.
 
 ## Features
 
@@ -23,8 +23,8 @@ A self-hosted Firebase alternative with real-time database and authentication se
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/instatiate.dev.git
-   cd instatiate.dev
+   git clone https://github.com/yourusername/instantiate.dev.git
+   cd instantiate.dev
    ```
 
 2. Generate JWT secrets:
@@ -43,8 +43,8 @@ A self-hosted Firebase alternative with real-time database and authentication se
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/instatiate.dev.git
-   cd instatiate.dev
+   git clone https://github.com/yourusername/instantiate.dev.git
+   cd instantiate.dev
    ```
 
 2. Install dependencies:
@@ -77,32 +77,32 @@ A self-hosted Firebase alternative with real-time database and authentication se
 ## Client SDK Usage
 
 ```javascript
-// Initialize Instatiate SDK
-const instatiate = new InstatiateSDK({
+// Initialize Instantiate SDK
+const instantiate = new InstantiateSDK({
   apiUrl: 'http://your-domain.com/api'
 });
 
 // Authentication
-await instatiate.register('user@example.com', 'password123');
-await instatiate.login('user@example.com', 'password123');
+await instantiate.register('user@example.com', 'password123');
+await instantiate.login('user@example.com', 'password123');
 
 // Real-time database
-await instatiate.connectToRealTimeDB();
+await instantiate.connectToRealTimeDB();
 
 // Get data
-const data = await instatiate.ref('/users/123').get();
+const data = await instantiate.ref('/users/123').get();
 
 // Set data
-await instatiate.ref('/users/123').set({ name: 'John Doe' });
+await instantiate.ref('/users/123').set({ name: 'John Doe' });
 
 // Update data
-await instatiate.ref('/users/123').update({ age: 30 });
+await instantiate.ref('/users/123').update({ age: 30 });
 
 // Delete data
-await instatiate.ref('/users/123').remove();
+await instantiate.ref('/users/123').remove();
 
 // Listen for changes
-const unsubscribe = instatiate.ref('/users/123').on('value', (data) => {
+const unsubscribe = instantiate.ref('/users/123').on('value', (data) => {
   console.log('Data changed:', data);
 });
 
@@ -110,7 +110,7 @@ const unsubscribe = instatiate.ref('/users/123').on('value', (data) => {
 unsubscribe.off();
 
 // Logout
-instatiate.logout();
+instantiate.logout();
 ```
 
 ## Security Rules
@@ -121,14 +121,14 @@ Example rules:
 
 ```javascript
 // Allow public read access but only owner can write
-await instatiate.ref('/posts/123').setRules({
+await instantiate.ref('/posts/123').setRules({
   public: 'true',
   publicRead: 'true',
   publicWrite: 'false'
 });
 
 // Get current rules
-const rules = await instatiate.ref('/posts/123').getRules();
+const rules = await instantiate.ref('/posts/123').getRules();
 ```
 
 ## License

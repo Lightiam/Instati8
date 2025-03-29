@@ -9,10 +9,19 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => {
   try {
-    const { email, password, metadata } = req.body;
+    const { email, password, displayName, firstName, lastName, metadata } = req.body;
     
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required' });
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+    
+    if (password.length < 8) {
+      return res.status(400).json({ message: 'Password must be at least 8 characters long' });
     }
     
     const salt = await bcrypt.genSalt(10);
@@ -21,6 +30,9 @@ router.post('/register', async (req, res) => {
     const user = await UserModel.create({
       email,
       password: hashedPassword,
+      displayName,
+      firstName,
+      lastName,
       metadata
     });
     
@@ -40,6 +52,12 @@ router.post('/register', async (req, res) => {
     
     res.status(201).json({ 
       userId: user.id, 
+      displayName: user.displayName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      verified: user.verified,
+      verificationToken: user.verificationToken,
       token,
       refreshToken
     });
@@ -87,7 +105,12 @@ router.post('/login', async (req, res) => {
     logger.info(`User logged in: ${email}`);
     
     res.json({ 
-      userId: user.id, 
+      userId: user.id,
+      displayName: user.displayName || email.split('@')[0],
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
+      email: user.email,
+      verified: user.verified === 'true',
       token,
       refreshToken
     });
@@ -133,6 +156,39 @@ router.post('/refresh-token', async (req, res) => {
   } catch (error) {
     logger.error(`Token refresh error: ${error.message}`);
     res.status(401).json({ message: 'Invalid token' });
+  }
+});
+
+router.post('/verify', async (req, res) => {
+  try {
+    const { userId, verificationToken } = req.body;
+    
+    if (!userId || !verificationToken) {
+      return res.status(400).json({ message: 'User ID and verification token are required' });
+    }
+    
+    const user = await UserModel.findById(userId);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    if (user.verified === 'true') {
+      return res.status(400).json({ message: 'User is already verified' });
+    }
+    
+    if (user.verificationToken !== verificationToken) {
+      return res.status(400).json({ message: 'Invalid verification token' });
+    }
+    
+    await UserModel.update(userId, { verified: 'true' });
+    
+    logger.info(`User verified: ${user.email}`);
+    
+    res.json({ message: 'User verified successfully' });
+  } catch (error) {
+    logger.error(`Verification error: ${error.message}`);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
 

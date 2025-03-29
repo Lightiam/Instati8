@@ -46,6 +46,7 @@ app.use(limiter);
 
 app.use('/api/auth', require('./auth/routes'));
 app.use('/api/database', require('./database/routes'));
+app.use('/api/ai', require('./ai/routes/aiRoutes'));
 
 if (config.staticHosting.enabled) {
   app.use(express.static(config.staticHosting.path));

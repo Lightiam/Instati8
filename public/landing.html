@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instantiate.dev - Dynamic database on the fly</title>
+  <meta name="description" content="Instantiate.dev - A dynamic database solution with real-time updates, authentication, and AI-powered database operations. Build faster with less code.">
+  <meta name="keywords" content="database, real-time database, authentication, AI database, database operations, dynamic database">
+  <meta name="author" content="Instantiate.dev">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Instantiate.dev - Dynamic database on the fly">
+  <meta property="og:description" content="A dynamic database solution with real-time updates, authentication, and AI-powered database operations. Build faster with less code.">
+  <meta property="og:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <meta property="og:url" content="https://instantiate.dev">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Instantiate.dev - Dynamic database on the fly">
+  <meta name="twitter:description" content="A dynamic database solution with real-time updates, authentication, and AI-powered database operations.">
+  <meta name="twitter:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <link rel="canonical" href="https://instantiate.dev">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Instantiate.dev",
+    "description": "A dynamic database solution with real-time updates, authentication, and AI-powered database operations.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Instantiate.dev",
+      "url": "https://instantiate.dev"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --primary: #3ecf8e;
+      --primary-dark: #24b47e;
+      --secondary: #6f7bb6;
+      --dark-blue: #1f2937;
+      --darker-blue: #111827;
+      --darkest-blue: #0f172a;
+      --text: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border: #374151;
+      --card-bg: #1e293b;
+      --success: #3ecf8e;
+      --error: #f43f5e;
+      --warning: #eab308;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(to bottom, var(--darker-blue), var(--darkest-blue));
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 6px;
+      margin-right: 0.75rem;
+    }
+    
+    .nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .nav-link:hover {
+      color: var(--text);
+    }
+    
+    .button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .button-primary {
+      background-color: var(--primary);
+      color: #000;
+    }
+    
+    .button-primary:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .button-secondary {
+      background-color: rgba(111, 123, 182, 0.1);
+      color: var(--text);
+      border: 1px solid var(--secondary);
+    }
+    
+    .button-secondary:hover {
+      background-color: rgba(111, 123, 182, 0.2);
+    }
+    
+    .hero {
+      padding: 6rem 0 4rem;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 4rem;
+    }
+    
+    .hero-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border);
+    }
+    
+    .features {
+      padding: 6rem 0;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .feature-card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background-color: rgba(62, 207, 142, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .feature-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--primary);
+    }
+    
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .feature-description {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+    
+    .ai-section {
+      padding: 6rem 0;
+      background-color: rgba(15, 23, 42, 0.5);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .ai-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    
+    @media (max-width: 768px) {
+      .ai-content {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .ai-text {
+      max-width: 500px;
+    }
+    
+    .ai-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    
+    .ai-description {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+    
+    .ai-features {
+      list-style: none;
+    }
+    
+    .ai-feature {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    
+    .ai-feature-icon {
+      color: var(--primary);
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+      margin-top: 0.25rem;
+    }
+    
+    .ai-image {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border);
+    }
+    
+    .cta {
+      padding: 6rem 0;
+      text-align: center;
+    }
+    
+    .cta-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    
+    .cta-description {
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+    }
+    
+    .footer {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border);
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .footer-description {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .footer-heading {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-link {
+      margin-bottom: 0.75rem;
+    }
+    
+    .footer-link a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    
+    .footer-link a:hover {
+      color: var(--text);
+    }
+    
+    .copyright {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      text-align: center;
+    }
+    
+    .code-block {
+      background-color: var(--darkest-blue);
+      border-radius: 8px;
+      padding: 1.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    
+    .code-comment {
+      color: var(--text-secondary);
+    }
+    
+    .code-keyword {
+      color: #ff79c6;
+    }
+    
+    .code-string {
+      color: #f1fa8c;
+    }
+    
+    .code-function {
+      color: #50fa7b;
+    }
+    
+    .code-variable {
+      color: #bd93f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <a href="#" class="logo">
+        <div class="logo-icon"></div>
+        Instantiate.dev
+      </a>
+      <nav class="nav">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#ai" class="nav-link">AI Assistant</a>
+        <a href="#docs" class="nav-link">Documentation</a>
+        <a href="/index.html" class="button button-primary" onclick="sessionStorage.setItem('fromLanding', 'true');">Dashboard</a>
+      </nav>
+    </header>
+    
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title" class="hero-title">Dynamic database on the fly</h1>
+      <p class="hero-subtitle">A dynamic database solution with real-time updates, authentication, and AI-powered database operations. Build faster with less code.</p>
+      <div class="hero-buttons">
+        <a href="/index.html" class="button button-primary" onclick="sessionStorage.setItem('fromLanding', 'true');" aria-label="Get started with Instantiate.dev">Get Started</a>
+        <a href="/ai-dashboard.html" class="button button-secondary" onclick="sessionStorage.setItem('fromLanding', 'true');" aria-label="Try the AI Assistant">Try AI Assistant</a>
+        <a href="#docs" class="button button-secondary" aria-label="View documentation">Documentation</a>
+      </div>
+      <img src="https://i.imgur.com/ZXWxK6o.png" alt="Instantiate.dev Dashboard showing real-time database interface with dark theme" class="hero-image" loading="eager" width="800" height="450">
+    </section>
+    
+    <section id="features" class="features" aria-labelledby="features-title">
+      <h2 id="features-title" class="section-title">Core Features</h2>
+      <div class="features-grid">
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" role="img" aria-label="Authentication icon">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Authentication Service</h3>
+          <p class="feature-description">Secure user management with JWT authentication, password hashing, and user profile management. Implement login, registration, and token refresh with minimal code.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" role="img" aria-label="Database icon">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Real-time Database</h3>
+          <p class="feature-description">JSON-like hierarchical data structure with WebSocket-based real-time updates. Get instant data synchronization across clients with path-based data access and optimized caching.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" role="img" aria-label="Security icon">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Security Rules Engine</h3>
+          <p class="feature-description">Granular access control with path-based permission structure and rule inheritance for hierarchical data. Define who can read and write to your database with a developer-friendly rule syntax.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" role="img" aria-label="SDK icon">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Client SDK</h3>
+          <p class="feature-description">Firebase-compatible API with real-time data synchronization, authentication methods, and easy integration with web applications. Build apps faster with our intuitive client library.</p>
+        </article>
+      </div>
+    </section>
+    
+    <section id="ai" class="ai-section">
+      <div class="container">
+        <div class="ai-content">
+          <div class="ai-text">
+            <h2 class="ai-title">AI-Powered Database Operations</h2>
+            <p class="ai-description">Harness the power of generative AI to create, manage, and interact with your database effortlessly. The Instantiate.dev AI assistant makes database operations accessible through natural language.</p>
+            <ul class="ai-features">
+              <li class="ai-feature">
+                <span class="ai-feature-icon">✓</span>
+                <span>Create database structures from natural language descriptions</span>
+              </li>
+              <li class="ai-feature">
+                <span class="ai-feature-icon">✓</span>
+                <span>Query your data using plain English questions</span>
+              </li>
+              <li class="ai-feature">
+                <span class="ai-feature-icon">✓</span>
+                <span>Update your data by describing the changes you want</span>
+              </li>
+              <li class="ai-feature">
+                <span class="ai-feature-icon">✓</span>
+                <span>Analyze your database structure for best practices</span>
+              </li>
+              <li class="ai-feature">
+                <span class="ai-feature-icon">✓</span>
+                <span>Chat with an AI assistant for database help and guidance</span>
+              </li>
+            </ul>
+          </div>
+          <div class="ai-image-container">
+            <div class="code-block">
+              <span class="code-comment">// Create a blog database with AI</span><br>
+              <span class="code-keyword">const</span> <span class="code-variable">response</span> = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'/api/ai/create-database'</span>, {<br>
+              &nbsp;&nbsp;<span class="code-variable">method</span>: <span class="code-string">'POST'</span>,<br>
+              &nbsp;&nbsp;<span class="code-variable">headers</span>: {<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>,<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'Authorization'</span>: <span class="code-string">`Bearer ${token}`</span><br>
+              &nbsp;&nbsp;},<br>
+              &nbsp;&nbsp;<span class="code-variable">body</span>: <span class="code-function">JSON.stringify</span>({<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-variable">prompt</span>: <span class="code-string">'I need a database for a blog with users, posts, and comments'</span><br>
+              &nbsp;&nbsp;})<br>
+              });<br><br>
+              <span class="code-keyword">const</span> <span class="code-variable">data</span> = <span class="code-keyword">await</span> <span class="code-variable">response</span>.<span class="code-function">json</span>();<br>
+              <span class="code-function">console.log</span>(<span class="code-variable">data.structure</span>); <span class="code-comment">// The generated database structure</span>
+            </div>
+            <div class="code-block">
+              <span class="code-comment">// Query data with natural language</span><br>
+              <span class="code-keyword">const</span> <span class="code-variable">response</span> = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'/api/ai/generate-query'</span>, {<br>
+              &nbsp;&nbsp;<span class="code-variable">method</span>: <span class="code-string">'POST'</span>,<br>
+              &nbsp;&nbsp;<span class="code-variable">headers</span>: {<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>,<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'Authorization'</span>: <span class="code-string">`Bearer ${token}`</span><br>
+              &nbsp;&nbsp;},<br>
+              &nbsp;&nbsp;<span class="code-variable">body</span>: <span class="code-function">JSON.stringify</span>({<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-variable">prompt</span>: <span class="code-string">'Show me all posts by user1 with their comments'</span><br>
+              &nbsp;&nbsp;})<br>
+              });<br><br>
+              <span class="code-keyword">const</span> <span class="code-variable">data</span> = <span class="code-keyword">await</span> <span class="code-variable">response</span>.<span class="code-function">json</span>();<br>
+              <span class="code-function">console.log</span>(<span class="code-variable">data.query</span>); <span class="code-comment">// The generated query code</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="docs" class="features">
+      <h2 class="section-title">Getting Started</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Docker Deployment</h3>
+          <div class="code-block">
+            <span class="code-comment"># Generate security keys</span><br>
+            <span class="code-function">npm run</span> generate-keys<br><br>
+            <span class="code-comment"># Launch with Docker Compose</span><br>
+            <span class="code-function">docker-compose</span> up -d
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Manual Deployment</h3>
+          <div class="code-block">
+            <span class="code-comment"># Install dependencies</span><br>
+            <span class="code-function">npm</span> install<br><br>
+            <span class="code-comment"># Configure environment</span><br>
+            <span class="code-function">cp</span> .env.example .env<br>
+            <span class="code-function">npm run</span> generate-keys<br><br>
+            <span class="code-comment"># Start the server</span><br>
+            <span class="code-function">npm</span> start
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="cta">
+      <h2 class="cta-title">Ready to get started?</h2>
+      <p class="cta-description">Build your next application with Instantiate.dev and experience the power of real-time database, authentication, and AI-powered database operations.</p>
+      <a href="/index.html" class="button button-primary" onclick="sessionStorage.setItem('fromLanding', 'true');">Launch Dashboard</a>
+    </section>
+    
+    <footer class="footer">
+      <div class="footer-content">
+        <div>
+          <a href="#" class="footer-logo">
+            <div class="logo-icon"></div>
+            Instantiate.dev
+          </a>
+          <p class="footer-description">A dynamic database solution with real-time updates, authentication, and AI-powered database operations.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Product</h4>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#features">Features</a></li>
+            <li class="footer-link"><a href="#ai">AI Assistant</a></li>
+            <li class="footer-link"><a href="#docs">Documentation</a></li>
+            <li class="footer-link"><a href="/index.html">Dashboard</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Resources</h4>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#">Documentation</a></li>
+            <li class="footer-link"><a href="#">API Reference</a></li>
+            <li class="footer-link"><a href="#">Examples</a></li>
+            <li class="footer-link"><a href="#">Tutorials</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Company</h4>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#">About</a></li>
+            <li class="footer-link"><a href="#">Blog</a></li>
+            <li class="footer-link"><a href="#">Careers</a></li>
+            <li class="footer-link"><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 Instantiate.dev - Dynamic database on the fly</p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
