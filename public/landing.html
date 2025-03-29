@@ -4,8 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Instantiate.dev - Dynamic database on the fly</title>
-  <meta name="description" content="Instantiate.dev - A dynamic database solution with real-time updates, authentication, and AI-powered database operations.">
+  <meta name="description" content="Instantiate.dev - A dynamic database solution with real-time updates, authentication, and AI-powered database operations. Build faster with less code.">
+  <meta name="keywords" content="database, real-time database, authentication, AI database, database operations, dynamic database">
+  <meta name="author" content="Instantiate.dev">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Instantiate.dev - Dynamic database on the fly">
+  <meta property="og:description" content="A dynamic database solution with real-time updates, authentication, and AI-powered database operations. Build faster with less code.">
+  <meta property="og:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <meta property="og:url" content="https://instantiate.dev">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Instantiate.dev - Dynamic database on the fly">
+  <meta name="twitter:description" content="A dynamic database solution with real-time updates, authentication, and AI-powered database operations.">
+  <meta name="twitter:image" content="https://i.imgur.com/ZXWxK6o.png">
+  <link rel="canonical" href="https://instantiate.dev">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Instantiate.dev",
+    "description": "A dynamic database solution with real-time updates, authentication, and AI-powered database operations.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Instantiate.dev",
+      "url": "https://instantiate.dev"
+    }
+  }
+  </script>
   <style>
     :root {
       --primary: #3ecf8e;
@@ -401,56 +434,56 @@
       </nav>
     </header>
     
-    <section class="hero">
-      <h1 class="hero-title">Dynamic database on the fly</h1>
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title" class="hero-title">Dynamic database on the fly</h1>
       <p class="hero-subtitle">A dynamic database solution with real-time updates, authentication, and AI-powered database operations. Build faster with less code.</p>
       <div class="hero-buttons">
-        <a href="/index.html" class="button button-primary" onclick="sessionStorage.setItem('fromLanding', 'true');">Get Started</a>
-        <a href="/ai-dashboard.html" class="button button-secondary" onclick="sessionStorage.setItem('fromLanding', 'true');">Try AI Assistant</a>
-        <a href="#docs" class="button button-secondary">Documentation</a>
+        <a href="/index.html" class="button button-primary" onclick="sessionStorage.setItem('fromLanding', 'true');" aria-label="Get started with Instantiate.dev">Get Started</a>
+        <a href="/ai-dashboard.html" class="button button-secondary" onclick="sessionStorage.setItem('fromLanding', 'true');" aria-label="Try the AI Assistant">Try AI Assistant</a>
+        <a href="#docs" class="button button-secondary" aria-label="View documentation">Documentation</a>
       </div>
-      <img src="https://i.imgur.com/ZXWxK6o.png" alt="Instantiate.dev Dashboard" class="hero-image">
+      <img src="https://i.imgur.com/ZXWxK6o.png" alt="Instantiate.dev Dashboard showing real-time database interface with dark theme" class="hero-image" loading="eager" width="800" height="450">
     </section>
     
-    <section id="features" class="features">
-      <h2 class="section-title">Core Features</h2>
+    <section id="features" class="features" aria-labelledby="features-title">
+      <h2 id="features-title" class="section-title">Core Features</h2>
       <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" role="img" aria-label="Authentication icon">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
           <h3 class="feature-title">Authentication Service</h3>
           <p class="feature-description">Secure user management with JWT authentication, password hashing, and user profile management. Implement login, registration, and token refresh with minimal code.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" role="img" aria-label="Database icon">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
             </svg>
           </div>
           <h3 class="feature-title">Real-time Database</h3>
           <p class="feature-description">JSON-like hierarchical data structure with WebSocket-based real-time updates. Get instant data synchronization across clients with path-based data access and optimized caching.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" role="img" aria-label="Security icon">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
           </div>
           <h3 class="feature-title">Security Rules Engine</h3>
           <p class="feature-description">Granular access control with path-based permission structure and rule inheritance for hierarchical data. Define who can read and write to your database with a developer-friendly rule syntax.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" role="img" aria-label="SDK icon">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
             </svg>
           </div>
           <h3 class="feature-title">Client SDK</h3>
           <p class="feature-description">Firebase-compatible API with real-time data synchronization, authentication methods, and easy integration with web applications. Build apps faster with our intuitive client library.</p>
-        </div>
+        </article>
       </div>
     </section>
     
